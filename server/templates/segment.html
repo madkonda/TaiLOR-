@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Segmentation • TaiLOR{% endblock %}
+{% block content %}
+<section class="panel">
+    <div class="panel-header">
+        <h1>SAM2 Segmentation</h1>
+        <form class="select-video" action="/segment" method="get">
+            <label>Frames folder</label>
+            <select name="video" onchange="this.form.submit()">
+                <option value="">-- choose --</option>
+                {% for v in videos %}
+                {% set stem = v.rsplit('.', 1)[0] %}
+                <option value="{{ stem }}" {% if selected==stem %}selected{% endif %}>{{ stem }}_frames</option>
+                {% endfor %}
+            </select>
+        </form>
+    </div>
+    {% if notice %}
+    <div class="alert">{{ notice }}</div>
+    {% endif %}
+    {% if error %}
+    <div class="alert error">{{ error }}</div>
+    {% endif %}
+
+    {% if selected and frames|length == 0 %}
+    <div class="empty">No frames extracted yet for <strong>{{ selected }}</strong>.</div>
+    {% endif %}
+
+    {% if frames|length > 0 %}
+    <div class="frames-grid">
+        {% for f in frames %}
+        <a class="frame select-frame" href="#" data-src="{{ f }}" data-video="{{ selected }}">
+            <img src="{{ f }}" alt="frame" />
+        </a>
+        {% endfor %}
+    </div>
+    {% endif %}
+</section>
+
+<div id="modal" class="modal hidden">
+    <div class="modal-body">
+        <div class="modal-header">
+            <div class="title">Click two points on the frame</div>
+            <button class="btn" type="button" id="closeModal">Close</button>
+        </div>
+        <div class="canvas-wrap">
+            <canvas id="canvas"></canvas>
+        </div>
+        <div class="coords">
+            <div id="pt1">Point 1: -</div>
+            <div id="pt2">Point 2: -</div>
+        </div>
+        <form id="segForm" method="post" action="/api/segment">
+            <input type="hidden" name="video" id="videoInput" />
+            <input type="hidden" name="frame" id="frameInput" />
+            <input type="hidden" name="x1" id="x1" />
+            <input type="hidden" name="y1" id="y1" />
+            <input type="hidden" name="x2" id="x2" />
+            <input type="hidden" name="y2" id="y2" />
+            <button class="btn primary" type="submit" disabled id="runSegBtn">Run SAM2 Segmentation</button>
+        </form>
+    </div>
+    <div class="modal-backdrop"></div>
+  </div>
+{% endblock %}
+
+
+

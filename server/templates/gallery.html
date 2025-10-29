@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Gallery • TaiLOR{% endblock %}
+{% block content %}
+<section class="panel">
+    <div class="panel-header">
+        <h1>Frames Gallery</h1>
+        <form class="select-video" action="/gallery" method="get">
+            <label>Select video</label>
+            <select name="video" onchange="this.form.submit()">
+                <option value="">-- choose --</option>
+                {% for v in videos %}
+                {% set stem = v.rsplit('.', 1)[0] %}
+                <option value="{{ stem }}" {% if selected==stem %}selected{% endif %}>{{ v }}</option>
+                {% endfor %}
+            </select>
+        </form>
+    </div>
+
+    {% if selected and frames|length == 0 %}
+    <div class="alert">No frames found for <strong>{{ selected }}</strong>. Try re-uploading.</div>
+    {% endif %}
+
+    {% if frames|length > 0 %}
+    <div class="frames-grid">
+        {% for f in frames %}
+        <a class="frame" href="{{ f }}" target="_blank" rel="noreferrer">
+            <img src="{{ f }}" alt="frame" />
+        </a>
+        {% endfor %}
+    </div>
+    {% endif %}
+</section>
+{% endblock %}
+
+
+
+

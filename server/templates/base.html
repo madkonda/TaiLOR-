@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}TaiLOR • Video Frames{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <header class="app-header">
+        <div class="brand">
+            <div class="logo">TaiLOR</div>
+            <div class="subtitle">Upload • Extract • Explore</div>
+        </div>
+        <nav class="nav-tabs">
+            <a href="/?tab=upload" class="tab {% if active_tab=='upload' %}active{% endif %}">Upload</a>
+            <a href="/gallery" class="tab {% if active_tab=='gallery' %}active{% endif %}">Gallery</a>
+            <a href="/segment" class="tab {% if active_tab=='segment' %}active{% endif %}">Segmentation</a>
+            <a href="/?tab=history" class="tab {% if active_tab=='history' %}active{% endif %}">History</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="app-footer">
+        <div>
+            <span>tailor.morsestudio.dev</span>
+            <span class="dot">•</span>
+            <a href="https://www.eleken.co/blog-posts/dashboard-design-examples-that-catch-the-eye" target="_blank" rel="noreferrer">UI inspiration</a>
+        </div>
+    </footer>
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
+
+
+

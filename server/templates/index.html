@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Upload • TaiLOR{% endblock %}
+{% block content %}
+<section class="panel">
+    <div class="panel-header">
+        <h1>Upload a Video</h1>
+        <p>Supported formats: MP4, MOV, MKV, AVI, WEBM</p>
+    </div>
+    {% if error %}
+    <div class="alert error">{{ error }}</div>
+    {% endif %}
+    <form class="upload-form" action="/upload" method="post" enctype="multipart/form-data">
+        <label class="dropzone">
+            <input type="file" name="file" accept="video/*" required />
+            <div class="dropzone-inner">
+                <div class="dz-icon">⬆</div>
+                <div class="dz-title">Drag & drop your video here</div>
+                <div class="dz-sub">or click to browse</div>
+            </div>
+        </label>
+        <button class="btn primary" type="submit">Upload & Extract Frames</button>
+    </form>
+</section>
+
+<section class="panel">
+    <div class="panel-header">
+        <h2>Recent Videos</h2>
+    </div>
+    {% if videos|length == 0 %}
+    <div class="empty">No videos uploaded yet.</div>
+    {% else %}
+    <div class="video-grid">
+        {% for v in videos %}
+        <a class="video-card" href="/gallery?video={{ v.rsplit('.', 1)[0] }}">
+            <div class="video-thumb">🎬</div>
+            <div class="video-name">{{ v }}</div>
+        </a>
+        {% endfor %}
+    </div>
+    {% endif %}
+</section>
+{% endblock %}
+
+
+
+
