@@ -10,6 +10,11 @@ from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse, Plai
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.templating import Jinja2Templates
+try:
+    from dotenv import load_dotenv  # type: ignore
+    load_dotenv()
+except Exception:
+    pass
 from sam2_runner import Sam2NotAvailable, run_sam2_on_points  # type: ignore
 
 
@@ -33,14 +38,13 @@ ensure_directories()
 app = FastAPI(title="TaiLOR Video Frames")
 cors_env = os.getenv("CORS_ORIGINS", "")
 origins = [o.strip() for o in cors_env.split(",") if o.strip()]
-if origins:
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=origins,
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins if origins else ["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Mount static assets
 app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
