@@ -59,7 +59,8 @@ export default function Segment() {
     setMsg('Starting segmentation...');
     const form = new FormData();
     form.append('video', video);
-    form.append('frame', selected.replace(API_BASE, ''));
+    const rel = selected.replace(/^https?:\/\/[^/]+/, '');
+    form.append('frame', rel);
     form.append('x1', String(pts[0].x));
     form.append('y1', String(pts[0].y));
     form.append('x2', String(pts[1].x));
