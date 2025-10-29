@@ -1,5 +1,5 @@
-// Default to Vercel proxy path to avoid mixed-content issues from HTTPS → HTTP
-export const API_BASE = (process.env.NEXT_PUBLIC_API_BASE || '/api').replace(/\/$/, '');
+// Local-only: default to backend on localhost:8090
+export const API_BASE = (process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:8090').replace(/\/$/, '');
 
 export function absoluteBackendUrl(path: string) {
   if (!API_BASE) return path;
